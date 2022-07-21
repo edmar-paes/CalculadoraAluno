@@ -1,46 +1,70 @@
 package com.ciandt.faculdade;
 
-import com.ciandt.faculdade.cursos.AlunoEngSoftware;
-import com.ciandt.faculdade.cursos.AlunoEstatistica;
-import com.ciandt.faculdade.cursos.AlunoFilosofia;
-import com.ciandt.faculdade.cursos.AlunoMedicina;
-import com.ciandt.faculdade.cursos.AlunoPsicologia;
 import com.ciandt.faculdade.outros.PerguntasUtil;
 
 public class TestaCalculoMedia {
 	public static void main(String[] args) {
+		//perguntasPara1Alunos();
+		criarMuitosAlunos();
+	}	
+	
+	public static void criarMuitosAlunos() {
+		String nomes[] = {"Pedro","River", "caio"};
+		int cursos[] = {2, 4, 3};
+		boolean especial[] = {false, true, false};
+		Aluno alunos[] = new Aluno[nomes.length];
+		AlunoFactory fabricaAlunos = new AlunoFactory();
+		
+		// fazer um for-loop que cria todos os alunos do vetor "nomes" acima
+        // de acordo com o curso do vertor "cursos"
+        // os alunos criados devem ser salvos no vetor "alunos" na respectiva posiçõa
+		for (int i = 0; i < alunos.length; i++) {
+			alunos[i] = fabricaAlunos.criaAluno(nomes[i], cursos[i]);
+			alunos[i].setEspecial(especial[i]);
+		}
+		
+		for (int i = 0; i < alunos.length; i++) {
+			if(alunos[i] != null) {
+				System.out.println(alunos[i].getNome() + " " + alunos[i]
+						+ " " + alunos[i].getEspecial()); 
+			} else {
+				System.out.println(nomes[i] + " Curso invalido");
+			}
+		 }
+	}
+	
+	public static void perguntasPAra1Aluno() {
 		System.out.println("Calculadora de media de alunos!");
 
 		String nome = PerguntasUtil.perguntaTexto("Digite o Nome do Aluno: ");
 
-		int tipo = PerguntasUtil.perguntaOpcao("Qual o tipo do aluno? (1 = Madicina, 2 = Eng. Software, "
+		int tipo = PerguntasUtil.perguntaOpcao("Qual o tipo do aluno? (1 = Medicina, 2 = Eng. Software, "
 				+ "3 = Estatistica, 4 = Psicologia e 5 = Filosofia)");
-		if (tipo > 0 && tipo < 6) {
-			Aluno aluno = null;
-			switch (tipo) {
-			case 1:
-				aluno = new AlunoMedicina(nome);
-				break;
-			case 2:
-				aluno = new AlunoEngSoftware(nome);
-				break;
-			case 3:
-				aluno = new AlunoEstatistica(nome);
-				break;
-			case 4:
-				aluno = new AlunoPsicologia(nome);
-				break;
-			case 5:
-				aluno = new AlunoFilosofia(nome);
-				break;
+		Aluno aluno = new AlunoFactory().criaAluno(nome, tipo);
+		
+		if (aluno != null) {
+			String respostaEspecial = PerguntasUtil.perguntaTexto("O aluno é especial? (Sim/Não)");
+			Boolean especial = null;
+			if (respostaEspecial.equalsIgnoreCase("sim") || respostaEspecial.equalsIgnoreCase("s")) {
+				especial = true;
+			} else if (respostaEspecial.equalsIgnoreCase("não") 
+					|| respostaEspecial.equalsIgnoreCase("n")
+					|| respostaEspecial.equalsIgnoreCase("nao")) {
+				especial = false;
+			} else {
+				System.out.println("Resposta inválida!");
 			}
-			aluno.perguntaNotas();
-			aluno.calculaMedia();
 
-			System.out.println("A situacao do aluno " + aluno.getNome());
-			System.out.println("é " + aluno.pegaSituacao());
-		} else {
-			System.out.println("Tipo do aluno invalido!");
+			if (especial != null) {
+				aluno.setEspecial(especial);
+				aluno.perguntaNotas();
+				aluno.calculaMedia();
+
+				System.out.println("O(A) situacao do aluno " + aluno.getNome()
+						+ " tem média " + aluno.getMedia() 
+						+ " e está " + aluno.pegaSituacao());
+			}
 		}
+		System.out.println("Encerrando sistema.");
 	}
 }

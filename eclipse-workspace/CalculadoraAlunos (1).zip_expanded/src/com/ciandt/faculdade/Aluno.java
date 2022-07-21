@@ -1,15 +1,17 @@
 package com.ciandt.faculdade;
 
-
-
 import com.ciandt.faculdade.outros.PerguntasUtil;
 
 public abstract class Aluno {
 
+	public static final int QUANTIDADE_DE_NOTAS = 2;
+	
+	private String nome;
+	private boolean especial = false;
     protected double nota1 = 0;
     protected double nota2 = 0;
     protected double media = 0;
-    private String nome;
+    
     
     public Aluno (String nome) {
         this.nome = nome;
@@ -19,7 +21,15 @@ public abstract class Aluno {
         return this.nome;
     }
     
-    public double getMedia() {
+    public boolean getEspecial() {
+        return especial;
+    }
+   
+    public void setEspecial(boolean especial) {
+        this.especial = especial;
+    }
+    
+	public double getMedia() {
         return this.media;
     }
     
@@ -31,7 +41,7 @@ public abstract class Aluno {
     }
     
     public double calculaMedia() {
-        this.media = (this.nota1 + this.nota2) / 2;
+        this.media = (this.nota1 + this.nota2) / QUANTIDADE_DE_NOTAS;
         return getMedia();
     }
     
@@ -39,9 +49,12 @@ public abstract class Aluno {
         if (this.media >= 7) {
             return "APROVADO";
         }
+        if (this.getEspecial()) {
+            return "EM ANALISE PELO CORPO DOCENTE";
+        }
         if (this.media >= 5) {
             return "EM RECUPERAÇÃO";
         }
-        return "REPROVADO";
+        return "EM REPROVADO";
     }
 }
