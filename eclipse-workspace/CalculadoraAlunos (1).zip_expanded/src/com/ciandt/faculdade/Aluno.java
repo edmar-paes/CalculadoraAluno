@@ -1,21 +1,28 @@
 package com.ciandt.faculdade;
 
-import com.ciandt.faculdade.outros.PerguntasUtil;
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class Aluno {
-
-	public static final int QUANTIDADE_DE_NOTAS = 2;
 	
 	private String nome;
 	private boolean especial = false;
-    protected double nota1 = 0;
-    protected double nota2 = 0;
+	protected List<Nota> notas = new LinkedList<>();
     protected double media = 0;
     
-    
-    public Aluno (String nome) {
+    public Aluno (String nome) {//construtor
         this.nome = nome;
+        notas.add(new Nota(Nota.DISCIPLINA1));
+        notas.add(new Nota(Nota.DISCIPLINA2));
     }
+    
+    public List<Nota> getNotas() {
+		return notas;
+	}
+    
+	public void setNotas(List<Nota> notas) {
+		this.notas = notas;
+	}
 
     public String getNome() {
         return this.nome;
@@ -32,16 +39,13 @@ public abstract class Aluno {
 	public double getMedia() {
         return this.media;
     }
-    
-    public abstract void perguntaNotas();
-
-    protected void perguntaDuasNotas() {
-        this.nota1 = PerguntasUtil.perguntaNota("Primeira Nota");
-        this.nota2 = PerguntasUtil.perguntaNota("Segunda Nota");
-    }
-    
+	
     public double calculaMedia() {
-        this.media = (this.nota1 + this.nota2) / QUANTIDADE_DE_NOTAS;
+        double soma = 0;
+    	for (Nota nota : notas){
+			soma += nota.getValor();
+		}
+    	this.media = soma / notas.size();
         return getMedia();
     }
     
@@ -56,5 +60,10 @@ public abstract class Aluno {
             return "EM RECUPERAÇÃO";
         }
         return "EM REPROVADO";
+    }
+    
+    @Override
+    public String toString() {
+    	return this.getClass().getSimpleName() + ": " + this.nome;
     }
 }

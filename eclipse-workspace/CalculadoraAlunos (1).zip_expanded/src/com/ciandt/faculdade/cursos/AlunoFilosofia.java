@@ -7,5 +7,4 @@ public class AlunoFilosofia  extends AlunoDeHumanas{
 	public AlunoFilosofia(String nome) {
 		super(nome);
 	}
-	
 }

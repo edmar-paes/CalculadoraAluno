@@ -1,39 +1,43 @@
 package com.ciandt.faculdade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ciandt.faculdade.outros.PerguntasUtil;
 
-public class TestaCalculoMedia {
+public class TestaFaculdade {
 	public static void main(String[] args) {
-		//perguntasPara1Alunos();
-		criarMuitosAlunos();
+		perguntasPara1Alunos();
 	}	
 	
 	public static void criarMuitosAlunos() {
-		String nomes[] = {"Pedro","River", "caio"};
-		int cursos[] = {2, 4, 3};
-		boolean especial[] = {false, true, false};
-		Aluno alunos[] = new Aluno[nomes.length];
+		String nomes[] = {"Pedro","River", "caio", "Gisele"};
+		int cursos[] = {2, 10, 3, 1};
+		boolean especial[] = {false, true, true, false};
+		List<Aluno> alunos = new ArrayList<>();
 		AlunoFactory fabricaAlunos = new AlunoFactory();
 		
 		// fazer um for-loop que cria todos os alunos do vetor "nomes" acima
         // de acordo com o curso do vertor "cursos"
         // os alunos criados devem ser salvos no vetor "alunos" na respectiva posiçõa
-		for (int i = 0; i < alunos.length; i++) {
-			alunos[i] = fabricaAlunos.criaAluno(nomes[i], cursos[i]);
-			alunos[i].setEspecial(especial[i]);
+		for (int i = 0; i < nomes.length; i++) {
+			Aluno alunoCriado = fabricaAlunos.criaAluno(
+	                nomes[i], cursos[i], especial[i]);
+			if (alunoCriado != null) {
+                alunos.add(alunoCriado);
+            } else {
+                System.err.println("Erro ao criar aluno: " + nomes[i]);
+            }
 		}
-		
-		for (int i = 0; i < alunos.length; i++) {
-			if(alunos[i] != null) {
-				System.out.println(alunos[i].getNome() + " " + alunos[i]
-						+ " " + alunos[i].getEspecial()); 
-			} else {
-				System.out.println(nomes[i] + " Curso invalido");
-			}
-		 }
+				
+		System.out.println("Quantidade de alunos criados com sucesso: " + alunos.size());
+        for (Aluno a : alunos) {
+        	String textoEsp = a.getEspecial() ? " - especial" : "";
+            System.out.println(a + textoEsp);
+        }
 	}
 	
-	public static void perguntasPAra1Aluno() {
+	public static void perguntasPara1Alunos() {
 		System.out.println("Calculadora de media de alunos!");
 
 		String nome = PerguntasUtil.perguntaTexto("Digite o Nome do Aluno: ");
@@ -57,7 +61,7 @@ public class TestaCalculoMedia {
 
 			if (especial != null) {
 				aluno.setEspecial(especial);
-				aluno.perguntaNotas();
+				PerguntasUtil.perguntaNotas(aluno);
 				aluno.calculaMedia();
 
 				System.out.println("O(A) situacao do aluno " + aluno.getNome()

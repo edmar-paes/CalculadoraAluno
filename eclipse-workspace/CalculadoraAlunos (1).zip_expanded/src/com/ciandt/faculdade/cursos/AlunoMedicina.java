@@ -6,6 +6,5 @@ public class AlunoMedicina  extends AlunoDeBiologicas{
 
 	public AlunoMedicina(String nome) {
 		super(nome);
-	}
-	
+	}	
 }

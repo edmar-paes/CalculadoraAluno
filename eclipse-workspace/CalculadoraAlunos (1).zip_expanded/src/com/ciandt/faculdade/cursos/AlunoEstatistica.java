@@ -6,6 +6,5 @@ public class AlunoEstatistica  extends AlunoDeExatas{
 
 	public AlunoEstatistica(String nome) {
 		super(nome);
-	}
-	
+	}	
 }
