@@ -8,6 +8,7 @@ import com.ciandt.faculdade.outros.PerguntasUtil;
 public class TestaFaculdade {
 	public static void main(String[] args) {
 		perguntasPara1Alunos();
+//		criarMuitosAlunos();
 	}	
 	
 	public static void criarMuitosAlunos() {
